@@ -1,0 +1,47 @@
+/**
+ * Generic MCP OAuth Proxy Worker
+ *
+ * Proxies authenticated MCP requests to an upstream server via Cloudflare
+ * Access. Fully reusable — deploy multiple instances by adding environments.
+ *
+ * Usage:
+ *   wrangler deploy --env ha        # Deploy Home Assistant MCP proxy
+ *   wrangler deploy --env obsidian  # Deploy Obsidian MCP proxy
+ *
+ * Each environment needs these secrets (set via dashboard or `wrangler secret put`):
+ *   MCP_UPSTREAM_URL, SERVICE_CLIENT_ID, SERVICE_CLIENT_SECRET,
+ *   ACCESS_CLIENT_ID, ACCESS_CLIENT_SECRET, ACCESS_TOKEN_URL,
+ *   ACCESS_AUTHORIZATION_URL, ACCESS_JWKS_URL, COOKIE_ENCRYPTION_KEY
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-10",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "observability": {
+    "enabled": true
+  },
+  "dev": {
+    "port": 8788
+  },
+  "env": {
+    "ha": {
+      "name": "cf-ai",
+      "kv_namespaces": [
+        {
+          "binding": "OAUTH_KV",
+          "id": "709f2b33d90543e49ccc54fadd19afdf"
+        }
+      ]
+    },
+    "obsidian": {
+      "name": "cf-obsidian",
+      "kv_namespaces": [
+        {
+          "binding": "OAUTH_KV",
+          "id": "REPLACE_WITH_NEW_KV_NAMESPACE_ID"
+        }
+      ]
+    }
+  }
+}
