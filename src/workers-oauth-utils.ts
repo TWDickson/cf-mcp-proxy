@@ -841,7 +841,32 @@ export async function fetchUpstreamAuthToken(params: {
 			Accept: "application/json",
 		},
 		body: data.toString(),
+		redirect: "manual",
 	});
+
+	// CF Access OIDC returns 302 redirects with error params on failure
+	if (response.status === 301 || response.status === 302) {
+		const location = response.headers.get("Location") ?? "";
+		try {
+			const redirectUrl = new URL(location);
+			const error = redirectUrl.searchParams.get("error") ?? "unknown_error";
+			const desc = redirectUrl.searchParams.get("error_description") ?? "Token exchange redirect error";
+			return [
+				null,
+				null,
+				new Response(JSON.stringify({ error, error_description: desc }), {
+					status: 400,
+					headers: { "Content-Type": "application/json" },
+				}),
+			];
+		} catch {
+			return [
+				null,
+				null,
+				new Response(`Token exchange returned unexpected redirect: ${location}`, { status: 400 }),
+			];
+		}
+	}
 
 	if (!response.ok) {
 		const errorText = await response.text();
