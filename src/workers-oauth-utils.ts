@@ -817,6 +817,7 @@ export async function fetchUpstreamAuthToken(params: {
 	client_secret: string;
 	code?: string;
 	redirect_uri: string;
+	state?: string;
 }): Promise<[string, string, null] | [null, null, Response]> {
 	if (!params.code) {
 		return [null, null, new Response("Missing authorization code", { status: 400 })];
@@ -829,6 +830,9 @@ export async function fetchUpstreamAuthToken(params: {
 		grant_type: "authorization_code",
 		redirect_uri: params.redirect_uri,
 	});
+	if (params.state) {
+		data.set("state", params.state);
+	}
 
 	const response = await fetch(params.upstream_url, {
 		method: "POST",

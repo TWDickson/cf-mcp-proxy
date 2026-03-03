@@ -127,6 +127,7 @@ export async function handleAccessRequest(
 			client_secret: env.ACCESS_CLIENT_SECRET,
 			code: searchParams.get("code") ?? undefined,
 			redirect_uri: new URL("/callback", request.url).href,
+			state: searchParams.get("state") ?? undefined,
 			upstream_url: env.ACCESS_TOKEN_URL,
 		});
 		if (errResponse) {
