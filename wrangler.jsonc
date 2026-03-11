@@ -7,6 +7,7 @@
  * Usage:
  *   wrangler deploy --env ha        # Deploy Home Assistant MCP proxy
  *   wrangler deploy --env obsidian  # Deploy Obsidian MCP proxy
+ *   wrangler deploy --env ticktick  # Deploy TickTick MCP proxy
  *
  * Each environment needs these secrets (set via dashboard or `wrangler secret put`):
  *   MCP_UPSTREAM_URL, SERVICE_CLIENT_ID, SERVICE_CLIENT_SECRET,
@@ -40,6 +41,15 @@
         {
           "binding": "OAUTH_KV",
           "id": "54992963c01b4534a747803615166ba0"
+        }
+      ]
+    },
+    "ticktick": {
+      "name": "cf-ticktick",
+      "kv_namespaces": [
+        {
+          "binding": "OAUTH_KV",
+          "id": "c7ee64fcf40342f390e8e3378ea891d1"
         }
       ]
     }
