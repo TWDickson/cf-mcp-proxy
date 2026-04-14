@@ -9,6 +9,7 @@
  *   wrangler deploy --env obsidian  # Deploy Obsidian MCP proxy
  *   wrangler deploy --env ticktick  # Deploy TickTick MCP proxy
  *   wrangler deploy --env fastmail  # Deploy Fastmail MCP proxy
+ *   wrangler deploy --env ynab      # Deploy YNAB MCP proxy
  *
  * Each environment needs these secrets (set via dashboard or `wrangler secret put`):
  *   MCP_UPSTREAM_URL, SERVICE_CLIENT_ID, SERVICE_CLIENT_SECRET,
@@ -60,6 +61,15 @@
         {
           "binding": "OAUTH_KV",
           "id": "b5abdf55c48a4a548e09a93f73fc57cb"
+        }
+      ]
+    },
+    "ynab": {
+      "name": "cf-ynab",
+      "kv_namespaces": [
+        {
+          "binding": "OAUTH_KV",
+          "id": "25167c86704842cab7653084c87bb5a7"
         }
       ]
     }
